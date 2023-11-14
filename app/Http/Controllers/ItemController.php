@@ -10,7 +10,14 @@ class ItemController extends Controller
 {
     public function index()
     {
-        return Item::orderBy('created_at', 'DESC')->get();
+
+        $items = Item::orderBy('created_at', 'DESC')->get();
+
+        foreach ($items as $item) {
+            $item->formatted_created_at = Carbon::parse($item->created_at)->format('Y-m-d H:i:s');
+        }
+
+        return response()->json(['items' => $items]);
     }
 
     public function create()
@@ -20,11 +27,10 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
-        $newItem = new Item;
-        $newItem->name = $request->item['name'];
-        $newItem->save();
+        $data = $request->all();
+        $newItem = Item::create($data);
+        return response()->json(['message' => 'Item added successfully'], 200);
 
-        return $newItem;
     }
 
     public function show(string $id)
@@ -40,7 +46,7 @@ class ItemController extends Controller
     public function update(Request $request, string $id)
     {
         $existing_item = Item::find($id);
-        if($existing_item) {
+        if ($existing_item) {
             $existing_item->completed = $request->item['completed'] ? true : false;
             $existing_item->completed_at = $request->item['completed'] ? Carbon::now() : null;
             $existing_item->save();
@@ -49,13 +55,14 @@ class ItemController extends Controller
         return 'item not found!';
     }
 
-    public function destroy(string $id)
+    public function destroy($id)
     {
-      $existing_item = Item::find($id);
-      if ($existing_item){
-          $existing_item->delete();
-          return 'Item deleted';
-      }
-      return 'Item not found';
+
+        $existing_item = Item::find($id);
+        if ($existing_item) {
+            $existing_item->delete();
+            return 'Item deleted';
+        }
+        return 'Item not found';
     }
 }
