@@ -14,7 +14,7 @@ class ItemController extends Controller
         $items = Item::orderBy('created_at', 'DESC')->get();
 
         foreach ($items as $item) {
-            $item->formatted_created_at = Carbon::parse($item->created_at)->format('Y-m-d H:i:s');
+            $item->formatted_created_at = Carbon::parse($item->created_at)->format('Y-m-d H:i');
         }
 
         return response()->json(['items' => $items]);
@@ -44,6 +44,18 @@ class ItemController extends Controller
     }
 
     public function update(Request $request, string $id)
+    {
+        $existing_item = Item::find($id);
+        if ($existing_item) {
+            $existing_item->completed = true;
+            $existing_item->completed_at =  Carbon::now();
+            $existing_item->save();
+            return $existing_item;
+        }
+        return 'item not found!';
+    }
+
+    public function updateOLD(Request $request, string $id)
     {
         $existing_item = Item::find($id);
         if ($existing_item) {

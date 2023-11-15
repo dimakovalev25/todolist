@@ -3,8 +3,8 @@
         <form @submit.prevent="addTask" action="">
 
             <input v-model="task.name" class="rounded-xl border-2 border-black pl-2" type="text"
-                   placeholder="add new task">
-            <button class="text-gray-200 rounded-xl px-1 ml-2 bg-black shadow-xl border-black border-2">add task
+                   placeholder="add new todo">
+            <button class="text-gray-200 rounded-xl px-1 ml-2 bg-black shadow-xl border-black border-2">add todo
             </button>
 
         </form>
