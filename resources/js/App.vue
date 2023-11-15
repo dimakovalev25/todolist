@@ -41,7 +41,7 @@ export default {
     methods: {
         async getTasks() {
             try {
-                const res = await axios.get('/api/items')
+                const res = await axios.get('/api/version_1/items')
                 this.taskList = res.data.items;
                 // console.log(this.taskList)
             } catch (error) {
@@ -55,7 +55,7 @@ export default {
         },
 
         completeTask(id) {
-            axios.put(`/api/item/${id}`, id)
+            axios.put(`api/version_1/item/${id}`, id)
                 .then(res => {
                     this.getTasks()
                 })
@@ -65,7 +65,7 @@ export default {
         },
 
         addTask(data) {
-            axios.post('/api/item/store', data)
+            axios.post('api/version_1/item/store', data)
                 .then(res => {
                     console.log(res)
                 })
@@ -76,7 +76,7 @@ export default {
 
 
         deleteTask(id) {
-            axios.delete(`/api/item/${id}`, id)
+            axios.delete(`api/version_1/item/${id}`, id)
                 .then(res => {
                     console.log(id)
                     this.getTasks()

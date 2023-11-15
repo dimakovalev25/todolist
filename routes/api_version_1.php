@@ -15,3 +15,11 @@ Route::prefix('/item')->group(function () {
    Route::put('/{id}', [\App\Http\Controllers\ItemController::class, 'update']);
    Route::delete('/{id}', [\App\Http\Controllers\ItemController::class, 'destroy']);
 });
+
+
+/*Route::get('/', function (){
+   return \App\Models\Version::all();
+});*/
+
+Route::get('/latest_version', [\App\Http\Controllers\Api\Version_1\IndexController::class, 'index'])->name('latest_version');
+Route::get('/all', [\App\Http\Controllers\Api\Version_1\IndexController::class, 'all'])->name('all_version');
